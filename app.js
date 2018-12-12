@@ -40,8 +40,6 @@ bot.onText(/\/start/, async (msg, match) => {
 
 });
 
-
-
 // Обработка событий 
 bot.on('callback_query', async (query) => {
     const id = query.message.chat.id;
@@ -103,3 +101,47 @@ bot.on('callback_query', async (query) => {
     }
     
 });
+
+const http = require('http'); 
+const fs = require('fs'); 
+const url = require('url'); 
+const path = require('path'); 
+
+const port = process.env.PORT;
+
+const server = http.createServer(function(req, res) {
+
+ 	 // обработка ошибок запросов
+ 	 req.on('error', function(err) {
+ 	 	console.log(err); 
+ 	 }); 
+      
+       if (req.url == '/') {
+
+           // чтение файла index.html
+           var file_path = path.join(__dirname, 'index.html'); 
+           fs.readFile(file_path, function (err, data) { 
+
+               // обработка ошибок
+               if (err) {
+                   console.log(err);
+                   res.writeHead(404, { 'Content-Type': 'text/plain' });
+                   res.write('Not Found!');
+
+               } else {
+                   res.writeHead(200, { 'Content-Type': 'text/html' }); 
+                   // записать в овет содержимое читаемого файла 
+                   res.write(data.toString());
+
+               }
+
+               res.end();
+           });
+       }
+       else {
+           res.writeHead(404, { 'Content-Type': 'text/html' }); 
+           res.end('Resource not found'); 
+       }
+
+}).listen(port); 
+

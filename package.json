@@ -10,7 +10,11 @@
   "author": "LiDzi",
   "license": "ISC",
   "dependencies": {
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
     "node-telegram-bot-api": "^0.30.0",
-    "request": "^2.88.0"
+    "path": "^0.12.7",
+    "request": "^2.88.0",
+    "url": "^0.11.0"
   }
 }
