@@ -1,32 +1,22 @@
 const TelegramBot = require('node-telegram-bot-api');
 const request = require('request');
 
-/* 
-    Этот ключ создает бот BotFather в телеграме.
-    С помощью BotFather создаются (регестрируются) новые боты в телеграме.
-*/
 const token = '754409376:AAHCyGyNHJRYbNN3rwEsTON9W4paBlURD5U';
 
-// Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(token, {polling: true});
 
-// Обработка ботом наших команд (команды вводятся так /nameComand)
-// Команда /start выполняется при запуске бота
+// Обработка ботом наших команд 
 bot.onText(/\/start/, async (msg, match) => {
 
     const chatId = msg.chat.id;
     
     await bot.sendPhoto(chatId, 'top2013.jpg');
     await bot.sendMessage(chatId, 'ФК Сталь Алчевск Приветствует Вас', {
-        // Здесь создаются кнопки для бота
-        // inline_keyboard означает, что кнопки будут расположенны в одну строку
       reply_markup: {
           inline_keyboard: [
               [                  
                 {
                     text: "Состав",
-                    // При нажатии на эту кнопку произойдет событие "callback_query"
-                    // и строка "EUR" будет передана на сервер в переменной data.
                     callback_data: "team" 
                 },
                 {
@@ -54,11 +44,8 @@ bot.onText(/\/start/, async (msg, match) => {
 
 // Обработка событий 
 bot.on('callback_query', async (query) => {
-    // в query хранятся данные о пользователи общающимся с ботом и 
-    // console.log(query);
     const id = query.message.chat.id;
     
-    // Запрос к приватбанку за курсами валют, приватбанк вернет json-объект
     switch (query.data) {
         case 'team':        
              
